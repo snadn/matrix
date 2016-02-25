@@ -62,7 +62,7 @@ function initReveal(){
             display: 'inline-block',
             padding: '1.2em'
           });
-          $('.diagram').sequenceDiagram({theme: 'hand', 
+          $('.diagram').sequenceDiagram({theme: $('.diagram').data('theme') || 'hand',
             fontSize: parseInt($('.diagram').css('fontSize') || 26),
             color: $('.diagram').css('color')
           });
@@ -184,9 +184,13 @@ function initReveal(){
 
 (function(){
 
-  function loadScript( url, callback ) {
+  function loadScript( url, parent, callback ) {
 
-    var head = document.querySelector( 'head' );
+    if (typeof parent === 'function') {
+      callback = parent;
+      parent = 'head';
+    }
+    parent = document.querySelector( parent || 'head' );
     var script = document.createElement( 'script' );
     script.type = 'text/javascript';
     script.src = url;
@@ -209,7 +213,7 @@ function initReveal(){
     }
 
     // Normal browsers
-    head.appendChild( script );
+    parent.appendChild( script );
 
   }
 
@@ -314,6 +318,11 @@ function initReveal(){
       document.getElementsByTagName('head')[0].appendChild(link);
     }
     initReveal();
+
+    content.replace(/<script.*?src="(.*?)".*?><\/script>/img, function(s, src) {
+      loadScript(src, 'body');
+      return s;
+    });
   });
 })();
 

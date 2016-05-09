@@ -1,9 +1,10 @@
 {
-  "name": "thinkjs-application",
+  "name": "matrix",
   "description": "application created by thinkjs",
   "version": "1.0.0",
   "scripts": {
     "start": "node www/development.js",
+    "release": "node tools/release.js",
     "compile": "babel --presets es2015-loose,stage-1 --plugins transform-runtime src/ --out-dir app/ --retain-lines",
     "watch-compile": "node -e \"console.log('<npm run watch-compile> no longer need, use <npm start> command direct.');console.log();\"",
     "watch": "npm run watch-compile"
